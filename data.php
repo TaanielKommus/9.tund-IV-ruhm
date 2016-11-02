@@ -1,42 +1,43 @@
-<?php 
+
+<?php
 	//ühendan sessiooniga
 	require("functions.php");
-	
+
 	//kui ei ole sisseloginud, suunan login lehele
 	if (!isset($_SESSION["userId"])) {
 		header("Location: login.php");
 		exit();
 	}
-	
+
 	//kas aadressireal on logout
 	if (isset($_GET["logout"])) {
-		
+
 		session_destroy();
-		
+
 		header("Location: login.php");
 		exit();
-		
+
 	}
-	
-	
-	if ( isset($_POST["age"]) && 
-		 isset($_POST["color"]) && 
+
+
+	if ( isset($_POST["age"]) &&
+		 isset($_POST["color"]) &&
 		 !empty($_POST["age"]) &&
-		 !empty($_POST["color"]) 
+		 !empty($_POST["color"])
 	) {
-		
-		
+
+
 		$color = cleanInput($_POST["color"]);
-		
+
 		saveEvent(cleanInput($_POST["age"]), $color);
 	}
-	
+
 	$people = getAllPeople();
-	
+
 	echo "<pre>";
 	var_dump($people[5]);
 	echo "</pre>";
-	
+
 ?>
 <h1>Data</h1>
 
@@ -51,16 +52,16 @@
 
 <h2>Salvesta sündmus</h2>
 <form method="POST" >
-	
+
 	<label>Vanus</label><br>
 	<input name="age" type="number">
-	
+
 	<br><br>
 	<label>Värv</label><br>
 	<input name="color" type="color">
-	
+
 	<br><br>
-	
+
 	<input type="submit" value="Salvesta">
 
 </form>
@@ -68,20 +69,20 @@
 
 <h2>Arhiiv</h2>
 
-<?php 
+<?php
 
-	
+
 	$html = "<table>";
-	
+
 		$html .= "<tr>";
 			$html .= "<th>ID</th>";
 			$html .= "<th>Vanus</th>";
 			$html .= "<th>Värv</th>";
 		$html .= "</tr>";
-		
+
 		//iga liikme kohta massiivis
 		foreach ($people as $p) {
-			
+
 			$html .= "<tr>";
 				$html .= "<td>".$p->id."</td>";
 				$html .= "<td>".$p->age."</td>";
@@ -89,24 +90,24 @@
                 $html .= "<td><a href='edit.php?id=".$p->id."'>edit.php</a></td>";
 
 			$html .= "</tr>";
-		
+
 		}
-		
+
 	$html .= "</table>";
-	
+
 	echo $html;
 
 ?>
 
 <h2>Midagi huvitavat</h2>
 
-<?php 
+<?php
 
 
 	foreach($people as $p) {
-		
+
 		$style = "
-		
+
 		    background-color:".$p->lightColor.";
 			width: 40px;
 			height: 40px;
@@ -116,11 +117,10 @@
 			float: left;
 			margin: 10px;
 		";
-				
+
 		echo "<p style ='  ".$style."  '>".$p->age."</p>";
-		
+
 	}
 
 
 ?>
-
