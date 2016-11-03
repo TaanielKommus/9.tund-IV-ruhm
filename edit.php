@@ -5,7 +5,7 @@
 
 	if(isset($_GET["delete"]) && isset($_GET["id"])) {
 
-			deletePerson(cleanInput($_GET["id"]));
+			$Event->deletePerson($Helper->cleaninput($_GET["id"]));
 			header("Location: data.php");
 			exit();
 		}
@@ -16,7 +16,7 @@
 	//kas kasutaja uuendab andmeid
 	if(isset($_POST["update"])){
 
-		updatePerson(cleanInput($_POST["id"]), cleanInput($_POST["age"]), cleanInput($_POST["color"]));
+		$Event->updatePerson($Helper->cleaninput($_POST["id"]), $Helper->cleaninput($_POST["age"]), $Helper->cleaninput($_POST["color"]));
 
 		header("Location: edit.php?id=".$_POST["id"]."&success=true");
         exit();
@@ -24,7 +24,7 @@
 	}
 
 	//saadan kaasa id
-	$p = getSinglePersonData($_GET["id"]);
+	$p = $Event->getSinglePersonData($_GET["id"]);
 	var_dump($p);
 
 
@@ -32,7 +32,7 @@
 ?>
 <br><br>
 <a href="data.php"> tagasi </a>
-
+$Helper->cleaninput
 <h2>Muuda kirjet</h2>
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
 	<input type="hidden" name="id" value="<?=$_GET["id"];?>" >

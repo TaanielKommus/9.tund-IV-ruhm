@@ -27,12 +27,12 @@
 	) {
 
 
-		$color = cleanInput($_POST["color"]);
+		$color = $Helper->cleaninput($_POST["color"]);
 
-		saveEvent(cleanInput($_POST["age"]), $color);
+		$Event->saveEvent($Helper->cleaninput($_POST["age"]), $color);
 	}
 
-	$people = getAllPeople();
+	$people = $Event->getAllPeople();
 
 	echo "<pre>";
 	var_dump($people[5]);
