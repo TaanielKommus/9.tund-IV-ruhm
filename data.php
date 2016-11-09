@@ -38,7 +38,24 @@
 		$Event->saveEvent($Helper->cleaninput($_POST["age"]), $color);
 	}
 
-	$people = $Event->getAllPeople();
+	if(isset($_GET["q"])) {
+		$q = $_GET["q"];
+
+	} else {
+		//ei otsi
+		$q = "";
+	}
+
+	$sort = "id";
+	$order = "ASC";
+
+	if (isset($_GET["sort"]) && isset($_GET["order"])) {
+		$sort = $_GET["sort"];
+		$order = $_GET["order"];
+
+	}
+
+	$people = $Event->getAllPeople($q, $sort, $order);
 
 	echo "<pre>";
 	var_dump($people[5]);
@@ -75,15 +92,74 @@
 
 <h2>Arhiiv</h2>
 
+<form>
+	<input type="search" name="q" value="<?=$q;?>">
+	<input type="submit" value="Otsi">
+</form>
+
 <?php
 
 
 	$html = "<table>";
 
 		$html .= "<tr>";
-			$html .= "<th>ID</th>";
-			$html .= "<th>Vanus</th>";
-			$html .= "<th>Värv</th>";
+
+		$orderId = "ASC";
+		$arr="&darr;";
+		if (isset($_GET["order"]) &&
+		$_GET["order"] == "ASC" &&
+		$_GET["sort"] == "id") {
+
+			$orderId = "DESC";
+			$arr="&uarr;";
+		}
+
+
+			$html .= "<th>
+			<a href='?q=".$q."&sort=id&order=".$orderId."'>
+
+			ID ".$arr."
+
+			</a>
+
+			</th>";
+
+
+			$orderAge = "ASC";
+			$arr="&darr;";
+
+			if (isset($_GET["order"]) &&
+			$_GET["order"] == "ASC" &&
+			$_GET["sort"] == "age") {
+
+				$orderAge = "DESC";
+				$arr="&uarr;";
+			}
+
+				$html .= "<th>
+				<a href='?q=".$q."&sort=age&order=".$orderAge."'>
+
+				Vanus ".$arr."
+				</a>
+
+				</th>";
+				$orderColor = "ASC";
+				if (isset($_GET["order"]) &&
+				$_GET["order"] == "ASC" &&
+				$_GET["sort"] == "color") {
+
+					$orderColor = "DESC";
+
+				}
+
+
+					$html .= "<th>
+					<a href='?q=".$q."&sort=color&order=".$orderColor."'>
+
+					Värv
+					</a>
+
+					</th>";
 		$html .= "</tr>";
 
 		//iga liikme kohta massiivis
