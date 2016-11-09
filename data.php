@@ -3,6 +3,12 @@
 	//ühendan sessiooniga
 	require("functions.php");
 
+	require("Helper.class.php");
+	$Helper = new Helper();
+
+	require("Event.class.php");
+	$Event = new Event($mysqli);
+
 	//kui ei ole sisseloginud, suunan login lehele
 	if (!isset($_SESSION["userId"])) {
 		header("Location: login.php");

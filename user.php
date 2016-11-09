@@ -2,6 +2,12 @@
 
 	require("functions.php");
 
+	require("Helper.class.php");
+$Helper = new Helper();
+
+require("Interest.class.php");
+$Interest = new Interest($mysqli);
+
 	//kui ei ole kasutaja id'd
 	if (!isset($_SESSION["userId"])){
 

@@ -1,7 +1,12 @@
 <?php
 	//edit.php
 	require("functions.php");
-	require("editFunctions.php");
+
+	require("Helper.class.php");
+$Helper = new Helper();
+
+require("Event.class.php");
+$Event = new Event($mysqli);
 
 	if(isset($_GET["delete"]) && isset($_GET["id"])) {
 
